@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Портфолио художницы Карины — живопись, портрет, графика и пастель. Ульяновск.">
+  <title>{% block title %}Карина — художница{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Prata&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}?v=3">
+  <script src="{{ url_for('static', path='/js/main.js') }}" defer></script>
+</head>
+<body data-page="{{ page }}">
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="cursor" aria-hidden="true"><span>Смотреть</span></div>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="На главную">KARINA<span>®</span></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="main-nav">
+      <span></span><span></span><span class="sr-only">Открыть меню</span>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Основная навигация">
+      <a href="/" {% if page == 'home' %}aria-current="page"{% endif %}><span>01</span> Главная</a>
+      <a href="/#works"><span>02</span> Работы</a>
+      <a href="/#prices"><span>03</span> Цены</a>
+      <a href="/contact" {% if page == 'contact' %}aria-current="page"{% endif %}><span>04</span> Связаться</a>
+    </nav>
+  </header>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  {% block overlays %}{% endblock %}
+
+  <footer class="site-footer">
+    <div>
+      <a class="brand" href="/">KARINA<span>®</span></a>
+      <p>Живопись, портрет, графика и пастель.</p>
+    </div>
+    <div class="footer-links">
+      <a href="tel:+79677745380">+7 967 774-53-80</a>
+      <a href="https://t.me/+79677745380" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a href="https://vk.ru/kaiinnr" target="_blank" rel="noopener noreferrer">Сообщество VK</a>
+      <a href="https://vk.ru/kainnr" target="_blank" rel="noopener noreferrer">Страница VK</a>
+    </div>
+    <p class="copyright">© <span data-year></span> Карина · Ульяновск</p>
+  </footer>
+</body>
+</html>

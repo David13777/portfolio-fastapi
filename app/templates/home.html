@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Карина — художница{% endblock %}
+{% block content %}
+<section class="cinema-hero">
+  <div class="hero-backdrop" aria-hidden="true">
+    <div class="hero-light"></div>
+  </div>
+  <div class="portrait-frame" data-parallax aria-label="Вертикальный портрет Карины"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-frame page-shell">
+    <p class="eyebrow hero-role reveal">Artist · Ulyanovsk</p>
+    <div class="hero-title reveal">
+      <span class="title-line">Тишина</span>
+      <span class="title-line title-line-right">обретает</span>
+      <span class="title-line"><em>форму.</em></span>
+    </div>
+    <div class="hero-bottom reveal reveal-delay">
+      <p>Пишу знакомые места, следы времени и свет, который делает повседневное важным.</p>
+      <a class="circle-link magnetic" href="/#works"><span>Смотреть<br>работы</span><b>↗</b></a>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#about"><span></span> Листайте</a>
+</section>
+
+<section class="film-ticker" aria-hidden="true">
+  <div>
+    <p>Живопись <i>—</i> Портрет <i>—</i> Графика <i>—</i> Пастель <i>—</i> Живопись <i>—</i> Портрет <i>—</i> Графика <i>—</i> Пастель <i>—</i> </p>
+    <p>Живопись <i>—</i> Портрет <i>—</i> Графика <i>—</i> Пастель <i>—</i> Живопись <i>—</i> Портрет <i>—</i> Графика <i>—</i> Пастель <i>—</i> </p>
+  </div>
+</section>
+
+<section id="about" class="about-cinema page-shell section-space">
+  <div class="section-label reveal"><span>01 /</span> Обо мне</div>
+  <div class="about-copy reveal">
+    <h2>Меня интересует не громкое событие, а момент, когда знакомое место вдруг становится <em>важным.</em></h2>
+    <div class="about-columns">
+      <p>Я Карина, художница из Ульяновска. Работаю с живописью, портретом, графикой и пастелью — наблюдаю за людьми, окраинами и предметами, в которых время оставило свой след.</p>
+      <p>В моих работах важны тишина, сдержанный цвет и точная деталь. Через них знакомый дом, лицо или тихий предмет становятся частью личной памяти.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>02</dt><dd>живопись</dd></div>
+      <div><dt>03</dt><dd>портрет</dd></div>
+      <div><dt>04</dt><dd>графика</dd></div>
+      <div><dt>05</dt><dd>пастель</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="galleries" id="works">
+  <div class="page-shell galleries-intro reveal">
+    <div class="section-label"><span>02 — 05 /</span> Работы</div>
+    <nav class="section-jumps" aria-label="Разделы работ">
+      {% for section in sections %}
+      <a href="#{{ section.id }}">{{ section.title }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+
+  {% for section in sections if section.images %}
+  <div class="gallery-block" id="{{ section.id }}" data-gallery-block>
+    <div class="gallery-head page-shell reveal">
+      <div class="gallery-title">
+        <span>{{ section.number }}</span>
+        <h2>{{ section.title }}</h2>
+      </div>
+      <div class="carousel-controls">
+        <button type="button" data-carousel-prev aria-label="Предыдущие работы в разделе {{ section.title }}">←</button>
+        <button type="button" data-carousel-next aria-label="Следующие работы в разделе {{ section.title }}">→</button>
+      </div>
+    </div>
+    <div class="carousel" data-carousel tabindex="0" aria-label="Галерея: {{ section.title }}">
+      <div class="carousel-track">
+        {% for image in section.images %}
+        <figure class="carousel-slide" data-ratio="{{ image.ratio }}">
+          <button
+            type="button"
+            class="slide-open"
+            data-cursor
+            data-gallery="{{ section.id }}"
+            data-index="{{ loop.index0 }}"
+            data-src="{{ image.src }}"
+            data-alt="{{ image.alt }}"
+            data-label="{{ section.title }}"
+            aria-label="Открыть: {{ section.title }}, работа {{ image.number }}"
+          >
+            <img
+              src="{{ image.src }}"
+              alt="{{ image.alt }}"
+              width="{{ image.width }}"
+              height="{{ image.height }}"
+              loading="lazy"
+              decoding="async"
+              draggable="false"
+            >
+          </button>
+        </figure>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="carousel-progress" aria-hidden="true"><span></span></div>
+  </div>
+  {% endfor %}
+
+  <div class="prices page-shell" id="prices">
+    <div class="section-label reveal"><span>06 /</span> Цены</div>
+    <div class="price-list">
+      {% for price in prices %}
+      <article class="reveal">
+        <h2>{{ price.title }}</h2>
+        <p>{{ price.amount }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cinema-cta section-space reveal">
+  <p class="eyebrow">Связаться с художницей</p>
+  <h2>Поговорим<br><em>об искусстве.</em></h2>
+  <a class="circle-link circle-link-light magnetic" href="/contact"><span>Написать<br>Карине</span><b>↗</b></a>
+</section>
+{% endblock %}
+
+{% block overlays %}
+<div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true" aria-label="Просмотр работы">
+  <button class="lightbox-close" type="button" data-lightbox-close>Закрыть <span>✕</span></button>
+  <button class="lightbox-nav lightbox-prev" type="button" data-lightbox-prev aria-label="Предыдущая работа">←</button>
+  <figure class="lightbox-figure">
+    <img data-lightbox-image alt="">
+    <figcaption data-lightbox-label></figcaption>
+  </figure>
+  <button class="lightbox-nav lightbox-next" type="button" data-lightbox-next aria-label="Следующая работа">→</button>
+</div>
+{% endblock %}
