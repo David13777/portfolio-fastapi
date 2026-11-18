@@ -10,6 +10,10 @@ def test_pages_and_health():
         assert home.status_code == 200
         assert "Карина" in home.text
         assert "Тишина" in home.text
+        assert "Карина Ядав" in home.text
+        assert "Меня интересует момент, когда знакомое вдруг становится" in home.text
+        assert "Связаться" in home.text
+        assert "Написать<br>Карине" not in home.text
         for title in ("Живопись", "Портрет", "Графика", "Пастель"):
             assert title in home.text
         assert "от 15 000 ₽" in home.text
@@ -19,9 +23,10 @@ def test_pages_and_health():
         assert home.text.index("<dt>02</dt><dd>живопись</dd>") < home.text.index("<dt>05</dt><dd>пастель</dd>")
         assert ">02</span>" in home.text and ">06 /</span> Цены" in home.text
         assert "paintings/" not in home.text
-        assert home.text.index("/static/images/jivo/pervii.jpg") < home.text.index("/static/images/jivo/vtoroi.jpg")
-        assert home.text.index("/static/images/portret/one.jpg") < home.text.index("/static/images/portret/two.jpg")
-        assert home.text.index("/static/images/portret/two.jpg") < home.text.index("/static/images/portret/six.jpg")
+        assert home.text.index("/static/images/jivo/vtoroi.jpg") < home.text.index("/static/images/jivo/shestoi.jpg")
+        assert home.text.index("/static/images/jivo/shestoi.jpg") < home.text.index("/static/images/jivo/pervii.jpg")
+        assert home.text.index("/static/images/portret/two.jpg") < home.text.index("/static/images/portret/one.jpg")
+        assert home.text.index("/static/images/portret/one.jpg") < home.text.index("/static/images/portret/six.jpg")
         assert 'width="952"' in home.text
         assert client.get("/static/images/jivo/pervii.jpg").status_code == 200
         assert client.get("/static/images/portret/one.jpg").status_code == 200
@@ -47,16 +52,16 @@ def test_pages_and_health():
 def test_gallery_order_and_sources():
     by_id = {section["id"]: section for section in load_galleries()}
     assert [image["src"].rsplit("/", 1)[-1] for image in by_id["zhivopis"]["images"]] == [
-        "pervii.jpg",
         "vtoroi.jpg",
+        "shestoi.jpg",
+        "pervii.jpg",
         "tretii.jpg",
         "chetvertii.jpg",
         "piatii.jpg",
-        "shestoi.jpg",
     ]
     assert [image["src"].rsplit("/", 1)[-1] for image in by_id["portret"]["images"]] == [
-        "one.jpg",
         "two.jpg",
+        "one.jpg",
         "three.jpg",
         "four.jpg",
         "five.jpg",
